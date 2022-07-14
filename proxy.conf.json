@@ -1,0 +1,8 @@
+{
+  "/products/*": {
+    "target": "https://api-rest-johan-default-rtdb.firebaseio.com/products",
+    "secure": true,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}

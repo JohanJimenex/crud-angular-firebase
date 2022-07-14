@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { FireBaseService } from './fire-base.service';
+import { IProducto } from './interfaces/producto.interface';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'CRUD-API-FireBase';
+
+  constructor(private fireBaseServices: FireBaseService) { }
+
+  get arrProductos(): IProducto[] {
+    return this.fireBaseServices.arrProductos;
+  }
+
+  
+
+
+
 }
