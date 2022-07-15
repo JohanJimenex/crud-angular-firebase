@@ -1,6 +1,7 @@
 <form
   action=""
   class="mb-3"
+  (submit)="AgregarProducto($event)"
 >
 
   <h5 class="text-center">Agregar Producto:</h5>
@@ -14,6 +15,7 @@
   <div class="my-2"></div>
 
   <input
+    #inputNombreProducto
     type="number"
     class="form-control"
     placeholder="Precio del producto"
@@ -22,7 +24,7 @@
   <div class="my-2"></div>
 
   <div class="text-center">
-    <button class="btn btn-dark form-control">
+    <button type="submit" class="btn btn-dark form-control">
       <i class="bi bi-plus mx-1"></i>
       <span>Agregar</span>
     </button>
