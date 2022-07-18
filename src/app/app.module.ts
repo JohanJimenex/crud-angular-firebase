@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from "@angular/common/http";
 import { AgregarProductoComponent } from './agregar-producto/agregar-producto.component';
 import { VistaProductosComponent } from './vista-productos/vista-productos.component'
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { VistaProductosComponent } from './vista-productos/vista-productos.compo
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

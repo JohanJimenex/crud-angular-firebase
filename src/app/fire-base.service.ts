@@ -27,6 +27,13 @@ export class FireBaseService {
 
   private urlBase: string = "https://api-rest-johan-default-rtdb.firebaseio.com/products";
 
+  public arrProductos: IProducto[] = [];
+
+  producto: IProducto = {
+    idProducto: "",
+    nombre: '',
+    precio: 0
+  }
 
   constructor(private http: HttpClient) {
     // Initialize Firebase
@@ -35,45 +42,48 @@ export class FireBaseService {
 
     let db = getFirestore(app);
 
+    this.ConsultarTodosLosProductos();
+
   }
 
-  private _arrProductos: IProducto[] = [];
+  ConsultarTodosLosProductos(): void {
 
-  get arrProductos(): IProducto[] {
-    return [...this._arrProductos];
-  }
+    this.http.get<any>(this.urlBase + ".json").subscribe((response: any) => {
 
-  async ConsultarTodosLosProductos() {
+      this.arrProductos = []
 
-    let request = await fetch(this.urlBase + ".json")
-    let response = await request.json();
+      for (const key in response) {
 
-    for (const key in response) {
+        let producto: IProducto = response[key];
 
-      let producto: IProducto = response[key];
+        producto.idProducto = key;
 
-      producto.idProducto = key;
+        this.arrProductos.push(producto)
+      }
 
-      this._arrProductos.push(producto)
-    }
+    });
 
-    console.log(this.arrProductos);
 
   }
 
   async AgregarProducto(producto: IProducto) {
+
+    let { idProducto, ...prodSinID } = producto;
 
     let data = {
       method: "POST",
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(producto)
+      body: JSON.stringify(prodSinID)
 
     }
 
     let request = await fetch(this.urlBase + ".json", data)
     // let response = await request.json();
+
+    this.ConsultarTodosLosProductos();
+
 
   }
 
@@ -85,6 +95,9 @@ export class FireBaseService {
 
     let request = await fetch(this.urlBase + "/" + idProducto + ".json", data)
     // let response = await request.json();
+
+    this.ConsultarTodosLosProductos();
+
   }
 
   async ActualizarProducto(producto: IProducto) {
@@ -109,7 +122,7 @@ export class FireBaseService {
   //   this.http.get<any>(this.urlBase + ".json").subscribe((response: any) => {
 
   //     for (const key in response) {
-  //       this._arrProductos.push(response[key])
+  //       this.arrProductos.push(response[key])
   //     }
   //   });
   // }

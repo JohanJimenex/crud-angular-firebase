@@ -9,14 +9,16 @@ import { IProducto } from './interfaces/producto.interface';
 })
 export class AppComponent {
 
-  constructor(private fireBaseServices: FireBaseService) { }
-
-  get arrProductos(): IProducto[] {
-    return this.fireBaseServices.arrProductos;
+  producto: IProducto = {
+    idProducto: "",
+    nombre: '',
+    precio: 0
   }
 
-  
+  seleccionarProducto(item: IProducto): void {
+    this.producto = item;
 
+  }
 
 
 }

@@ -1,32 +1,34 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { FireBaseService } from '../fire-base.service';
 import { IProducto } from '../interfaces/producto.interface';
 
 @Component({
   selector: 'app-agregar-producto',
   templateUrl: './agregar-producto.component.html',
-  styleUrls: ['./agregar-producto.component.css']
+
 })
 export class AgregarProductoComponent {
 
   constructor(private fireBaseServices: FireBaseService) { }
 
-  @ViewChild('inputNombreProducto') inputNombreProducto!: ElementRef<HTMLInputElement>;
-
-
-  producto: IProducto = {
+  @Input() producto: IProducto = {
+    idProducto: "",
     nombre: '',
     precio: 0
   }
 
-  AgregarProducto(event: any): void {
-    event.preventDefault()
-    this.producto.nombre = this.inputNombreProducto.nativeElement.value
+  AgregarProducto(): void {
 
-    // this.fireBaseServices.AgregarProducto(this.producto)
-    console.log(this.producto.nombre);
-    console.log(event.target.value);
+    //si el id es cero entonfces se agrega un nuevo prod, d elo contrario se actualiza el existente
+    if (this.producto.idProducto == "") {
+      this.fireBaseServices.AgregarProducto(this.producto);
+    } else {
+      this.fireBaseServices.ActualizarProducto(this.producto);
+    }
 
+    this.fireBaseServices.producto = { idProducto: "", nombre: "", precio: 0 }
+
+    this.producto = this.fireBaseServices.producto;
 
   }
 
